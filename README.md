@@ -1,5 +1,5 @@
 
-# BI-CDSI  # blind inpainting
+# BI-CSDI  # blind inpainting
 ├─ High-sensitivity stage 1/  # segmentation task  
 │  ├─ main.py  
 │  ├─ test.py  
