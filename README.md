@@ -20,3 +20,10 @@
 
 
 SAFE dataset can be download at google drive. (https://drive.google.com/file/d/15nAMQKuvpnspykCEbYm-kRpfPMLtmHjh/view?usp=drive_link)
+
+| Task               | Training Stage | Pre-trained Weights Link                                                                             |
+|--------------------|----------------|------------------------------------------------------------------------------------------------------|
+| Segmentation Task  | Stage 1        | (https://drive.google.com/file/d/1QmugbOvStmxJY3oxQZLWDFEt2DVDYGcn/view?usp=drive_link)|
+|--------------------|----------------|------------------------------------------------------------------------------------------------------|
+|  Inpainting Task   | Stage 1        | (https://drive.google.com/file/d/1QmugbOvStmxJY3oxQZLWDFEt2DVDYGcn/view?usp=drive_link)|
+|--------------------|----------------|------------------------------------------------------------------------------------------------------|
