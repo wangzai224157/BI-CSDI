@@ -65,10 +65,10 @@ class InpaintingModel(BaseModel):
 
         generator1 = HINT1()
 
-        ckpt = torch.load("/mnt/d/zy/decouple/3.4/HINT-main/pth/lae_dino_swint_lae1m-28ca3a15.pth")
+        ckpt = torch.load("/mnt/d/zy/decouple/3.1/HINT-main/pth/InpaintingModel_gen.pth")
         #generator1 = generator1.load_state_dict(ckpt,strict = False)
         generator1.load_state_dict(ckpt, strict=False)  # 正确加载权重的方式
-
+        generator.load_state_dict(ckpt, strict=False)  # 正确加载权重的方式
         #generator1.add_module("HINT1", generator1.load_state_dict(ckpt, strict=False))
         
 
@@ -188,7 +188,7 @@ class InpaintingModel(BaseModel):
 
 
         with torch.no_grad():
-            outputs_mid = self.generator1(inputs)
+            outputs_mid = self.generator1(inputs_pre)
         inputs = torch.cat((inputs, outputs_mid,outputs_mid, outputs_mid ), dim=1)
 
         outputs_img = self.generator(inputs,masks,scaled_masks_half,scaled_masks_quarter,scaled_masks_tiny)  

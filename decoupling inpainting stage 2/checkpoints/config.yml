@@ -1,12 +1,13 @@
 MODE: 1             # 1: train, 2: test
 MODEL: 2            # 2: inpaint model
-MASK: 5         # 0: no mask, 1: random block, 2: center mask, 3: external, 4: 50% external, 50% random block, 5: (50% no mask, 25% ramdom block, 25% external) 6: external non-random
+MASK: 2         # 0: no mask, 1: random block, 2: center mask, 3: external, 4: 50% external, 50% random block, 5: (50% no mask, 25% ramdom block, 25% external) 6: external non-random
 SEED: 10            # random seed
 GPU: [0]            # list of gpu ids
 AUGMENTATION_TRAIN: 0 # 1: use augmentation to train landmark predictor  0:not use
 
-TRAIN_INPAINT_IMAGE_FLIST: /mnt/dataset/
-TEST_INPAINT_IMAGE_FLIST: /mnt/dataset/
+TRAIN_INPAINT_IMAGE_FLIST: /mnt/d/zy/dataset/RICE1/train/clear
+TEST_INPAINT_IMAGE_FLIST: /mnt/d/zy/dataset/AID/test/clear
+
 
 TRAIN_MASK_FLIST: 
 TEST_MASK_FLIST: 

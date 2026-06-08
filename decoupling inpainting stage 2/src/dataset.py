@@ -93,9 +93,9 @@ class Dataset(torch.utils.data.Dataset):
 
     def load_mask(self, img, index):
         imgh, imgw = img.shape[0:2]
-        mask_type = self.mask
-        mask_type = random.randint(0, mask_type )
-        #mask_type = 2
+        #mask_type = self.mask
+        #mask_type = random.randint(0, mask_type )
+        mask_type = 2
 
 
 
@@ -122,9 +122,7 @@ class Dataset(torch.utils.data.Dataset):
 
         # center mask
         if mask_type == 2:
-            #return create_mask(imgw, imgh, int(imgw * 5/ 16) , int(imgh * 5/ 16), x = imgw//16, y = imgh//16)
-            #return create_mask(imgw, imgh, imgw//2, imgh//2, x = imgw//4, y = imgh//4)
-            return create_mask(imgw, imgh, int(imgw * 10/ 16) , int(imgh * 10/ 16), x = imgw//16, y = imgh//16)
+            return create_mask(imgw, imgh, int(imgw * 5/ 16) , int(imgh * 5/ 16), x = imgw//16, y = imgh//16)
 
         # external
         if mask_type == 7:
@@ -150,12 +148,12 @@ class Dataset(torch.utils.data.Dataset):
                 width=imgw,
                 height=imgh,
                 num_lines=random.randint(2, 5),  # 随机2-5条线
-                line_width_range=(70, 100),
+                line_width_range=(20, 30),
                 angle_range=(0, 180),  # 全角度范围
                 gap_range=(15, 40),
                 randomize=True
             )
-        """
+    
         # 新增：固定方向的多线条掩码（类型8）
         if mask_type == 4:
             # 固定为水平或垂直方向
@@ -165,24 +163,7 @@ class Dataset(torch.utils.data.Dataset):
                 width=imgw,
                 height=imgh,
                 num_lines=random.randint(1, 4),
-                line_width_range=(60, 80),
-                angle_range=(angle, angle),  # 固定角度
-                gap_range=(20, 60),
-                randomize=False
-            )
-
-            # 随机的不规则
-             # 新增：固定方向的多线条掩码（类型8）
-        """
-        if mask_type == 4:
-            # 固定为水平或垂直方向
-            angle = 0 if random.random() < 0.5 else 90
-          
-            return create_line_mask(
-                width=imgw,
-                height=imgh,
-                num_lines=random.randint(1, 4),
-                line_width_range=(60, 80),
+                line_width_range=(60, 60),
                 angle_range=(angle, angle),  # 固定角度
                 gap_range=(20, 60),
                 randomize=False

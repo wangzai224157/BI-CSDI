@@ -73,7 +73,7 @@ def load_config(mode=None):
     """
 
     parser = argparse.ArgumentParser()
-    parser.add_argument('--path', '--checkpoints', type=str, default='/mnt/checkpoints',
+    parser.add_argument('--path', '--checkpoints', type=str, default='/mnt/d/zy/decouple/3.1/HINT-main/checkpoints',
                         help='model checkpoints path')
 
     parser.add_argument('--model', type=int, default='2', choices=[2])
@@ -82,7 +82,7 @@ def load_config(mode=None):
     if mode == 2:
         parser.add_argument('--input', type=str, help='path to the input images directory or an input image')
         parser.add_argument('--mask', type=str, help='path to the masks directory or a mask file')
-        parser.add_argument('--output', type=str, default = '/mnt/result',help='path to the output directory')
+        parser.add_argument('--output', type=str, default = '/mnt/d/zy/decouple/3.1/HINT-main/result',help='path to the output directory')
 
     args = parser.parse_args()
     config_path = os.path.join(args.path, 'config.yml')

@@ -22,7 +22,7 @@ def create_mask(width, height, mask_width, mask_height, x=None, y=None):
     return mask
 
 def create_line_mask_learn_from_create_mask(width, height, 
-                               line_width=2,
+                               line_width=2, 
                                angle=45, 
                                x=None, 
                                y=None):
@@ -117,9 +117,9 @@ def generate_stroke_mask(width, height, num_strokes=5, stroke_width_range=(2, 10
         num_strokes: 笔画数量
         stroke_width_range: 笔画宽度范围 (min, max)
         randomize: 是否随机化参数
-
-    返回:
-        numpy数组: 不规则缺失区域掩码，值为0（正常）或255（缺失）
+if mask_type == 5:
+            # 随机的
+            return generate_stroke_mask(width=imgw,height=imgh)组: 不规则缺失区域掩码，值为0（正常）或255（缺失）
     """
     
     # 初始化全0掩码（0表示正常区域）
@@ -160,7 +160,7 @@ def generate_stroke_mask(width, height, num_strokes=5, stroke_width_range=(2, 10
         mask = np.maximum(mask, stroke_mask)
     
     return mask
-    
+
 def np_free_form_mask(maxVertex, maxLength, maxBrushWidth, maxAngle, h, w):
     mask = np.zeros((h, w, 1), np.float32)
     numVertex = np.random.randint(maxVertex + 1)
@@ -238,7 +238,7 @@ import numpy as np
 import random
 def create_irregular_mask(width, height,
                           num_curves=3,
-                          curve_width_range=(4, 12),
+                          curve_width_range=(30, 52),
                           amplitude_range=(20, 60),
                           wavelength_range=(50, 200),
                           randomize=True):
