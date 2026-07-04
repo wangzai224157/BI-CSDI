@@ -141,7 +141,7 @@ def main():
             optimizer.step()
             # results
             model.eval()
-            if opt.net == "FFDNet":add_watermark_noise
+            if opt.net == "FFDNet":
                 out_train = torch.clamp(model(imgn_train, noise_sigma), 0., 1.)
             else:
                 out_train = torch.clamp(model(imgn_train), 0., 1.)
