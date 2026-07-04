@@ -39,19 +39,19 @@ parser.add_argument(
 parser.add_argument(
     "--pth1",
     type=str,
-    default="/mnt/d/zy/2.59/SWCNN-main_multi/runs/HNperL1n2nalpha1.0.pth"
+    default="/mnt/d/runs/HNperL1n2nalpha1.0.pth"
 )
 
 parser.add_argument(
     "--cloud_dir",
     type=str,
-    default="/mnt/d/zy/dataset/rice2test/cloud"
+    default="/mnt/d/dataset/rice2test/cloud"
 )
 
 parser.add_argument(
     "--mask_dir",
     type=str,
-    default="/mnt/d/zy/dataset/rice2test/mask"
+    default="/mnt/d/dataset/rice2test/mask"
 )
 
 parser.add_argument("--threshold", type=float, default=0.5)
@@ -82,7 +82,7 @@ def save_rgb_tensor_as_image(tensor, save_path):
 def save_mask_tensor_as_image(tensor, save_path):
     """
     tensor: [1,1,H,W] or [1,3,H,W], value range [0,1]
-    保存单通道 mask。
+    # Save the single-channel mask
     """
     mask_np = tensor[0].detach().cpu().numpy()
 
@@ -105,9 +105,9 @@ def save_mask_numpy(mask_np, save_path):
 
 def to_single_channel_mask(tensor):
     """
-    输入:
+    input:
         tensor: [1,C,H,W]
-    输出:
+    output:
         mask: [1,1,H,W]
     """
     if tensor.size(1) == 1:
@@ -115,7 +115,7 @@ def to_single_channel_mask(tensor):
     elif tensor.size(1) == 3:
         return tensor.mean(dim=1, keepdim=True)
     else:
-        print(f"警告：输出通道数为 {tensor.size(1)}，默认取第一个通道作为 mask。")
+        print(f"Warning: the output has {tensor.size(1)} channels; the first channel is used as the mask by default.")
         return tensor[:, :1, :, :]
 
 def calculate_mask_metrics(pred_prob, gt_mask, threshold=0.5):
@@ -290,7 +290,7 @@ def water_test():
         for f_index, (cloud_path, mask_path) in enumerate(zip(cloud_files, mask_files)):
 
             # =====================================================
-            # 1. 读取 cloud 和 GT mask
+            # 1. Read the cloud image and GT mask
             # =====================================================
             INoisy, cloud_bgr, H, W = read_cloud_as_tensor(cloud_path)
             GT_mask, mask_bgr, mask_bin_np = read_mask_as_tensor(mask_path, H, W)
@@ -304,17 +304,17 @@ def water_test():
 
             GT_mask_white = GT_mask_white.cuda()
 
-            # 用 load_cloud_and_mask 处理后的白色区域 mask 覆盖 GT_mask
+            # 用 load_cloud_and_mask # Use the white-region mask processed by load_cloud_and_mask to overwrite GT_mask
             GT_mask = GT_mask_white
 
-            # 为了后面 input_origin 保存的也是处理后的白色区域 mask
+            # This ensures that input_origin saved later is also the processed white-region mask
             mask_np = GT_mask[0, 0].detach().cpu().numpy()
             mask_np_uint8 = (mask_np * 255).clip(0, 255).astype(np.uint8)
             mask_bgr = cv2.cvtColor(mask_np_uint8, cv2.COLOR_GRAY2BGR)
             mask_bin_np = mask_np.astype(np.float32)
 
             # =====================================================
-            # 2. 保存原始 mask 和 cloud
+            # 2. Save the original mask and cloud image
             # =====================================================
             cv2.imwrite(
                 os.path.join(opt.output_path, f"input_origin_{f_index}.png"),
@@ -333,7 +333,7 @@ def water_test():
             )
 
             # =====================================================
-            # 3. 模型预测 mask
+            # 3. Predict the mask using the model
             # =====================================================
             Out = model(INoisy)
             Out = torch.clamp(Out, 0.0, 1.0)
@@ -344,7 +344,7 @@ def water_test():
             Out_bin = (Out_mask > opt.threshold).float()
 
             # =====================================================
-            # 4. 打印范围
+            # 4. Print the value range
             # =====================================================
             print(f"\n===== {os.path.basename(cloud_path)} =====")
             print(f"INoisy shape: {tuple(INoisy.shape)}")
@@ -358,14 +358,14 @@ def water_test():
             print(f"Out_bin white ratio: {Out_bin.mean().item():.4f}")
 
             # =====================================================
-            # 5. 计算 mask 和 mask 的 PSNR / SSIM / RMSE
+            # 5. Calculate PSNR / SSIM / RMSE between the predicted mask and the GT mask
             # =====================================================
             psnr_api = batch_PSNR(Out_mask, GT_mask, 1.0)
             ssim_api = batch_SSIM(Out_mask, GT_mask, 1.0)
             rmse_api = batch_RMSE(Out_mask, GT_mask, 1.0)
 
             # =====================================================
-            # 6. 计算 IoU / F1 / Precision / Recall / OA
+            # 6. Calculate IoU / F1 / Precision / Recall / OA
             # =====================================================
             metric_dict = calculate_mask_metrics(
                 pred_prob=Out_mask,
@@ -394,7 +394,7 @@ def water_test():
             )
 
             # =====================================================
-            # 7. 保存模型输入和预测结果
+            # 7. Save the model input and prediction results
             # =====================================================
             if opt.display == "True":
 
@@ -413,12 +413,12 @@ def water_test():
                     os.path.join(opt.output_path, f"model_out_mask_bin_{f_index}.png")
                 )
 
-                # 保存叠加图：预测 mask 区域标红
+                # Save the overlay image: mark the predicted mask region in red
                 cloud_show = cloud_bgr[:H, :W].copy()
                 pred_np = Out_bin[0, 0].detach().cpu().numpy().astype(np.uint8)
 
                 red_layer = np.zeros_like(cloud_show)
-                red_layer[:, :, 2] = 255  # BGR 中红色通道
+                red_layer[:, :, 2] = 255  # Red channel in BGR
 
                 mask_bool = pred_np.astype(bool)
                 alpha = 0.45
@@ -434,7 +434,7 @@ def water_test():
                 )
 
     # =====================================================
-    # 8. 平均指标
+    # 8. Average metrics
     # =====================================================
     cnt = len(cloud_files)
 
@@ -463,7 +463,7 @@ def water_test():
         total_tp + total_tn + total_fp + total_fn + eps
     )
 
-    print("\n========== 全部测试集 Global 指标：Mask vs Mask ==========")
+    print("\n========== Global metrics over the entire test set: Mask vs. Mask ==========")
     print(f"Mask PSNR      : {avg_psnr:.4f}")
     print(f"Mask SSIM      : {avg_ssim:.4f}")
     print(f"Mask RMSE      : {avg_rmse:.4f}")
@@ -474,7 +474,7 @@ def water_test():
     print(f"Mask OA        : {avg_oa:.4f}")
     print("=========================================================")
 
-    print(f"\n结果保存到: {opt.output_path}")
+    print(f"\nresult at: {opt.output_path}")
 
 
 if __name__ == "__main__":
