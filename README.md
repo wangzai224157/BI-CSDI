@@ -34,11 +34,11 @@ SAFE dataset can be download at google drive. (https://drive.google.com/file/d/1
 |--------------------|----------------|------------------------------------------------------------------------------------------------------|
 
 
-#Segmentation Training and Testing
+# Segmentation Training and Testing
 
 This project provides a two-stage training strategy for degradation segmentation, including cloud-noise segmentation and stripe-shaped dead-pixel segmentation.
 
-##Stage 1: Self-supervised Pretraining
+## Stage 1: Self-supervised Pretraining
 
 In the first stage, the model is pretrained in a self-supervised manner to learn degradation-sensitive representations.
 
@@ -56,7 +56,7 @@ python train.py \
   --self_supervised True \
   --PN True \
   --alpha 1.0
-##Stage 2: Supervised Fine-tuning
+##  Stage 2: Supervised Fine-tuning
 
 In the second stage, the pretrained weights from Stage 1 are loaded and the model is fine-tuned using labeled masks.
 
