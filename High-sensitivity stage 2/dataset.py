@@ -158,3 +158,66 @@ class Dataset(udata.Dataset):
         data = np.array(h5f[key])
         h5f.close()
         return torch.Tensor(data)
+
+
+
+
+class CloudMaskDataset(TorchDataset):
+    def __init__(self, cloud_dir, mask_dir, size=256):
+        self.cloud_paths = sorted([
+            os.path.join(cloud_dir, f)
+            for f in os.listdir(cloud_dir)
+            if f.lower().endswith((".png", ".jpg", ".jpeg", ".tif", ".tiff"))
+        ])
+
+        self.mask_paths = sorted([
+            os.path.join(mask_dir, f)
+            for f in os.listdir(mask_dir)
+            if f.lower().endswith((".png", ".jpg", ".jpeg", ".tif", ".tiff"))
+        ])
+
+        assert len(self.cloud_paths) > 0, f"cloud_dir 为空: {cloud_dir}"
+        assert len(self.mask_paths) > 0, f"mask_dir 为空: {mask_dir}"
+        assert len(self.cloud_paths) == len(self.mask_paths), "cloud 和 mask 数量不一致"
+
+        self.size = size
+
+    def __len__(self):
+        return len(self.cloud_paths)
+
+    def __getitem__(self, index):
+        cloud = Image.open(self.cloud_paths[index]).convert("RGB")
+       # mask = Image.open(self.mask_paths[index]).convert("L")
+
+        cloud = cloud.resize((self.size, self.size), Image.BILINEAR)
+       # mask = mask.resize((self.size, self.size), Image.NEAREST)
+
+        cloud = TF.to_tensor(cloud)       # [3, H, W]
+       # mask = TF.to_tensor(mask)         # [1, H, W]
+
+        #mask = (mask > 0.5).float()
+
+        mask_rgb = Image.open(
+            self.mask_paths[index]
+        ).convert("RGB")
+        
+
+        mask_rgb = mask_rgb.resize(
+            (self.size, self.size),
+            Image.NEAREST
+        )
+        mask_np = np.array(mask_rgb)
+        white_region = (
+            (mask_np[:,:,0] > 240) &
+            (mask_np[:,:,1] > 240) &
+            (mask_np[:,:,2] > 240)
+        )
+
+        binary_mask = np.zeros_like(mask_np)
+        binary_mask[white_region] = [255, 255, 255]
+
+        mask = TF.to_tensor(
+            Image.fromarray(binary_mask)
+        )[0:1]
+
+        return cloud, mask
