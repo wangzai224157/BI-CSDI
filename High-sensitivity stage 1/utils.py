@@ -61,6 +61,7 @@ def batch_RMSE(img, imclean, data_range):
     return (MSE / Img.shape[0])
 def multi( img_train ):
     random_img = random.randint(1, 12)
+
 def add_watermark_noise(img_train, occupancy=50, self_surpervision=False, same_random=0, alpha=0.3):
     # 加载水印,水印应该是随机加入
     random_img = random.randint(1, 2)
@@ -384,9 +385,9 @@ def add_watermark_noise(img_train, occupancy=50, self_surpervision=False, same_r
 """
 
             
-            # 合并水印文件
+            # Overlay the watermark
 
-            #从这里开始 下面的是原始的。
+            # From here onward, the following code is the original version.
             layer.paste(water, (x, y))
             tmp = Image.composite(layer, tmp, layer)
             img_for_cnt.paste(water, (x, y), water)
