@@ -34,11 +34,11 @@ SAFE dataset can be download at google drive. (https://drive.google.com/file/d/1
 |--------------------|----------------|------------------------------------------------------------------------------------------------------|
 
 
-# Segmentation Training and Testing
+## Segmentation Training and Testing
 
 This project provides a two-stage training strategy for degradation segmentation, including cloud-noise segmentation and stripe-shaped dead-pixel segmentation.
 
-## Stage 1: Self-supervised Pretraining
+### Stage 1: Self-supervised Pretraining
 
 In the first stage, the model is pretrained in a self-supervised manner to learn degradation-sensitive representations.
 
@@ -63,7 +63,7 @@ python train.py \
   --lr  1e-5 \
   --alpha 1.0
 ```
-##  Stage 2: Supervised Fine-tuning
+###  Stage 2: Supervised Fine-tuning
 
 In the second stage, the pretrained weights from Stage 1 are loaded and the model is fine-tuned using labeled masks.
 
@@ -117,4 +117,37 @@ python test.py \
   --PN True \
   --display True
 ```
-# inpainting Training and Testing
+
+## Inpainting Training and Testing
+
+The inpainting task is trained in three stages. The same training script is used for all stages.
+
+### Stage 1: Inpainting Pretraining
+
+```bash
+python train.py \
+  --path /path/to/stage1_checkpoint
+```
+
+### Stage 2: Semantic Representation Learning
+
+```bash
+python train.py \
+  --path /path/to/stage2_checkpoint
+```
+
+### Stage 3: Semantic-detail Decoupled Inpainting
+
+```bash
+python train.py \
+  --path /path/to/stage3_checkpoint
+```
+
+### Testing
+
+The testing command is the same for all three stages:
+
+```bash
+python test.py
+```
+
