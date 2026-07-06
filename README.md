@@ -87,6 +87,7 @@ Testing
 After training, the segmentation models can be evaluated using the following commands.
 
 Test cloud-noise segmentation
+
 ```bash
 python test_c.py \
   --alpha 1.0 \
