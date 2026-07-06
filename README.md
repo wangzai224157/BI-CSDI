@@ -113,3 +113,4 @@ python test.py \
   --PN True \
   --display True
 ```
+# inpainting Training and Testing
