@@ -51,6 +51,7 @@ python train_c.py \
   --PN True \
   --alpha 1.0
 Stripe-shaped dead-pixel segmentation pretraining
+
 ```bash
 python train.py \
   --net HN \
@@ -65,6 +66,7 @@ In the second stage, the pretrained weights from Stage 1 are loaded and the mode
 Please replace /path/to/pretrain_checkpoint with the path to the pretrained checkpoint obtained in Stage 1.
 
 Cloud-noise segmentation fine-tuning
+
 ```bash
 python train_c.py \
   --net HN \
@@ -75,6 +77,7 @@ python train_c.py \
   --cloud_dir /path/to/cloud_images \
   --mask_dir /path/to/cloud_masks
 Stripe-shaped dead-pixel segmentation fine-tuning
+
 ```bash
 python train.py \
   --net HN \
@@ -96,6 +99,7 @@ python test_c.py \
   --PN True \
   --display True
 Test stripe-shaped dead-pixel segmentation
+
 ```bash
 python test.py \
   --alpha 1.0 \
