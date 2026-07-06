@@ -50,6 +50,7 @@ python train_c.py \
   --self_supervised True \
   --PN True \
   --alpha 1.0
+```
 Stripe-shaped dead-pixel segmentation pretraining
 
 ```bash
@@ -59,6 +60,7 @@ python train.py \
   --self_supervised True \
   --PN True \
   --alpha 1.0
+```
 ##  Stage 2: Supervised Fine-tuning
 
 In the second stage, the pretrained weights from Stage 1 are loaded and the model is fine-tuned using labeled masks.
@@ -76,6 +78,7 @@ python train_c.py \
   -pth1 /path/to/pretrain_checkpoint \
   --cloud_dir /path/to/cloud_images \
   --mask_dir /path/to/cloud_masks
+```
 Stripe-shaped dead-pixel segmentation fine-tuning
 
 ```bash
@@ -85,6 +88,7 @@ python train.py \
   --PN True \
   --alpha 1.0 \
   -pth1 /path/to/pretrain_checkpoint
+```
 Testing
 
 After training, the segmentation models can be evaluated using the following commands.
@@ -98,6 +102,7 @@ python test_c.py \
   --self_supervised False \
   --PN True \
   --display True
+```
 Test stripe-shaped dead-pixel segmentation
 
 ```bash
@@ -107,3 +112,4 @@ python test.py \
   --self_supervised False \
   --PN True \
   --display True
+```
