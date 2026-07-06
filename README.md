@@ -43,6 +43,7 @@ This project provides a two-stage training strategy for degradation segmentation
 In the first stage, the model is pretrained in a self-supervised manner to learn degradation-sensitive representations.
 
 Cloud-noise segmentation pretraining
+```bash
 python train_c.py \
   --net HN \
   --loss L1 \
@@ -50,6 +51,7 @@ python train_c.py \
   --PN True \
   --alpha 1.0
 Stripe-shaped dead-pixel segmentation pretraining
+```bash
 python train.py \
   --net HN \
   --loss L1 \
@@ -63,6 +65,7 @@ In the second stage, the pretrained weights from Stage 1 are loaded and the mode
 Please replace /path/to/pretrain_checkpoint with the path to the pretrained checkpoint obtained in Stage 1.
 
 Cloud-noise segmentation fine-tuning
+```bash
 python train_c.py \
   --net HN \
   --loss L1 \
@@ -72,6 +75,7 @@ python train_c.py \
   --cloud_dir /path/to/cloud_images \
   --mask_dir /path/to/cloud_masks
 Stripe-shaped dead-pixel segmentation fine-tuning
+```bash
 python train.py \
   --net HN \
   --loss L1 \
@@ -83,6 +87,7 @@ Testing
 After training, the segmentation models can be evaluated using the following commands.
 
 Test cloud-noise segmentation
+```bash
 python test_c.py \
   --alpha 1.0 \
   --loss L1 \
@@ -90,6 +95,7 @@ python test_c.py \
   --PN True \
   --display True
 Test stripe-shaped dead-pixel segmentation
+```bash
 python test.py \
   --alpha 1.0 \
   --loss L1 \
