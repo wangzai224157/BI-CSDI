@@ -11,14 +11,14 @@ Stripe-shaped dead-pixel segmentation
 Two-stage training with self-supervised pretraining and supervised fine-tuning
 
 ## Requirements
-Python >= 3.10.0 
-torch == 2.5.1 
-torchvision == 0.20.1 numpy == 2.2.0 
-opencv-python == 4.10.0 
-Pillow == 11.0.0 
-h5py == 3.13.0 
-scikit-image == 0.24.0 
-PyYAML == 6.0.2
+torch==2.5.1
+torchvision==0.20.1
+numpy==2.2.0
+opencv-python==4.10.0
+Pillow==11.0.0
+h5py==3.13.0
+scikit-image==0.24.0
+PyYAML==6.0.2
 ## Project Structure
 ├─ High-sensitivity stage 1/  # segmentation task  
 │  ├─ main.py  
