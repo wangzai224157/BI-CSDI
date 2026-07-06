@@ -49,6 +49,7 @@ python train_c.py \
   --loss L1 \
   --self_supervised True \
   --PN True \
+  --lr  1e-5 \
   --alpha 1.0
 ```
 Stripe-shaped dead-pixel segmentation pretraining
@@ -59,6 +60,7 @@ python train.py \
   --loss L1 \
   --self_supervised True \
   --PN True \
+  --lr  1e-5 \
   --alpha 1.0
 ```
 ##  Stage 2: Supervised Fine-tuning
@@ -77,6 +79,7 @@ python train_c.py \
   --alpha 1.0 \
   -pth1 /path/to/pretrain_checkpoint \
   --cloud_dir /path/to/cloud_images \
+  --lr  1e-4 \
   --mask_dir /path/to/cloud_masks
 ```
 Stripe-shaped dead-pixel segmentation fine-tuning
@@ -87,6 +90,7 @@ python train.py \
   --loss L1 \
   --PN True \
   --alpha 1.0 \
+  --lr  1e-4 \
   -pth1 /path/to/pretrain_checkpoint
 ```
 Testing
